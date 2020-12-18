@@ -3,7 +3,9 @@
 # Script to install gcc as described on 
 # http://retroramblings.net/?p=315
 
-PREFIX='/opt/mist/arm-none-eabi'
+TARGET='arm-none-eabi'
+
+PREFIX="/opt/mist/${TARGET}"
 
 ARCHIVES_DIR='archives'
 
@@ -22,11 +24,7 @@ NEWLIB_VERSION='newlib-4.0.0'
 NEWLIB_ARCHIVE="${NEWLIB_VERSION}.tar.gz"
 NEWLIB_MD5='22d11117d94fe5f2dade56721c62629c'
 
-CPUS=$(nproc)
-JOBS=1
-if [[ ${CPUS} -gt 1 ]]; then
-  JOBS=$((${CPUS} - 1))
-fi
+JOBS=$(nproc)
 
 if [[ ! -d "${ARCHIVES_DIR}" ]]; then
     mkdir "${ARCHIVES_DIR}"
@@ -72,9 +70,9 @@ fi
 
 tar xf "${ARCHIVES_DIR}"/"${BINUTILS_ARCHIVE}"
 cd "${BINUTILS_VERSION}"
-mkdir arm-none-eabi
-cd arm-none-eabi
-../configure --target=arm-none-eabi --prefix="${PREFIX}"
+mkdir "${TARGET}" 
+cd "${TARGET}"
+../configure --target="${TARGET}" --prefix="${PREFIX}"
 make -j ${JOBS}
 make install
 cd ../../
@@ -100,9 +98,11 @@ tar xf "${ARCHIVES_DIR}"/"${NEWLIB_ARCHIVE}"
 
 cd "${GCC_VERSION}"
 ln -s ../"${NEWLIB_VERSION}"/newlib .
-mkdir arm-none-eabi
-cd arm-none-eabi
-../configure --target=arm-none-eabi --prefix="${PREFIX}" --enable-languages=c --with-newlib
+mkdir "${TARGET}"
+cd "${TARGET}"
+../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-languages=c --with-newlib
 make -j ${JOBS}
 make install
 cd ../../
+
+exit 0
