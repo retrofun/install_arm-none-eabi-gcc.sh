@@ -10,9 +10,9 @@ PREFIX="/opt/mist/${TARGET}"
 ARCHIVES_DIR='archives'
 
 BINUTILS_URL='ftp://ftp.fu-berlin.de/unix/gnu/binutils/'
-BINUTILS_VERSION='binutils-2.36'
+BINUTILS_VERSION='binutils-2.36.1'
 BINUTILS_ARCHIVE="${BINUTILS_VERSION}.tar.xz"
-BINUTILS_MD5='f6114b8c40096f9aa9f64fe1ab8ba087'
+BINUTILS_MD5='628d490d976d8957279bbbff06cf29d4'
 
 GCC_URL='ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/'
 GCC_VERSION='gcc-10.2.0'
