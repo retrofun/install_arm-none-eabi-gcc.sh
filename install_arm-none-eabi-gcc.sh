@@ -100,7 +100,7 @@ cd "${GCC_VERSION}"
 ln -s ../"${NEWLIB_VERSION}"/newlib .
 mkdir "${TARGET}"
 cd "${TARGET}"
-../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-languages=c --with-newlib
+../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-languages=c --with-newlib --enable-newlib-io-long-long
 make -j ${JOBS}
 make install
 cd ../../
