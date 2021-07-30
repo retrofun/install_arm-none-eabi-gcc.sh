@@ -14,5 +14,5 @@ The [Canon Hack Development Kit](https://chdk.fandom.com/wiki/CHDK) (CHDK) can b
 
 Currently used components:
 * [binutils 2.37](https://ftp.gnu.org/gnu/binutils/)
-* [gcc 11.1.0](https://ftp.gnu.org/gnu/gcc/)
+* [gcc 11.2.0](https://ftp.gnu.org/gnu/gcc/)
 * [newlib 4.1.0](https://sourceware.org/pub/newlib/)

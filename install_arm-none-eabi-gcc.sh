@@ -15,9 +15,9 @@ BINUTILS_ARCHIVE="${BINUTILS_VERSION}.tar.xz"
 BINUTILS_MD5='e78d9ff2976b745a348f4c1f27c77cb1'
 
 GCC_URL='ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/'
-GCC_VERSION='gcc-11.1.0'
+GCC_VERSION='gcc-11.2.0'
 GCC_ARCHIVE="${GCC_VERSION}.tar.xz"
-GCC_MD5='77f6252be0861ab918042acf42bc10ff'
+GCC_MD5='31c86f2ced76acac66992eeedce2fce2'
 
 NEWLIB_URL='ftp://sourceware.org/pub/newlib/'
 NEWLIB_VERSION='newlib-4.1.0'
