@@ -13,7 +13,7 @@ The resulting gcc compiler is used to compile the [MiST firmware](https://github
 The [Canon Hack Development Kit](https://chdk.fandom.com/wiki/CHDK) (CHDK) can be compiled with it, too.
 
 Currently used components:
-* [binutils 2.39](https://ftp.gnu.org/gnu/binutils/)
+* [binutils 2.40](https://ftp.gnu.org/gnu/binutils/)
 * [gcc 12.2.0](https://ftp.gnu.org/gnu/gcc/)
 * [newlib 4.2.0.20211231](https://sourceware.org/pub/newlib/)
 
