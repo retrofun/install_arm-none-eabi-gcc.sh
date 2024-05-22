@@ -10,14 +10,14 @@ PREFIX="/opt/mist/${TARGET}"
 ARCHIVES_DIR='archives'
 
 BINUTILS_URL='ftp://ftp.fu-berlin.de/unix/gnu/binutils/'
-BINUTILS_VERSION='binutils-2.40'
+BINUTILS_VERSION='binutils-2.42'
 BINUTILS_ARCHIVE="${BINUTILS_VERSION}.tar.xz"
-BINUTILS_MD5='007b59bd908a737c06e5a8d3d2c737eb'
+BINUTILS_MD5='a075178a9646551379bfb64040487715'
 
 GCC_URL='ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/'
-GCC_VERSION='gcc-12.2.0'
+GCC_VERSION='gcc-13.3.0'
 GCC_ARCHIVE="${GCC_VERSION}.tar.xz"
-GCC_MD5='73bafd0af874439dcdb9fc063b6fb069'
+GCC_MD5='726726a73eaaacad4259fe5d7e978020'
 
 NEWLIB_URL='ftp://sourceware.org/pub/newlib/'
 NEWLIB_VERSION='newlib-4.2.0.20211231'

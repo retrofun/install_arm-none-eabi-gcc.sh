@@ -12,9 +12,9 @@ The resulting gcc compiler is used to compile the [MiST firmware](https://github
 
 The [Canon Hack Development Kit](https://chdk.fandom.com/wiki/CHDK) (CHDK) can be compiled with it, too.
 
-Currently used components:
-* [binutils 2.40](https://ftp.gnu.org/gnu/binutils/)
-* [gcc 12.2.0](https://ftp.gnu.org/gnu/gcc/)
+Components currently used:
+* [binutils 2.42](https://ftp.gnu.org/gnu/binutils/)
+* [gcc 13.3.0](https://ftp.gnu.org/gnu/gcc/)
 * [newlib 4.2.0.20211231](https://sourceware.org/pub/newlib/)
 
 This script uses the `-j` option of `make` command with the number of available CPU threads. Compile time on a 6 cores/12 threads AMD Ryzen 5 3600XT is about 5 minutes.
