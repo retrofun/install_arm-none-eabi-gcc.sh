@@ -1,7 +1,14 @@
 #!/bin/bash
 
-# Script to install gcc as described on 
-# http://retroramblings.net/?p=315
+# Script to install gcc for the arm-none-eabi target.
+#
+# Based on
+# https://retroramblings.net/?p=315
+# https://github.com/mist-devel/mist-board/blob/master/tools/install_arm-none-eabi-gcc.sh
+# https://gitlab.cs.fau.de/-/snippets/144
+# https://src.fedoraproject.org/rpms/arm-none-eabi-binutils-cs/blob/rawhide/f/arm-none-eabi-binutils-cs.spec
+# https://src.fedoraproject.org/rpms/arm-none-eabi-gcc-cs/blob/rawhide/f/arm-none-eabi-gcc-cs.spec
+# https://src.fedoraproject.org/rpms/arm-none-eabi-newlib/blob/rawhide/f/arm-none-eabi-newlib.spec
 
 TARGET='arm-none-eabi'
 
@@ -20,11 +27,13 @@ GCC_ARCHIVE="${GCC_VERSION}.tar.xz"
 GCC_MD5='726726a73eaaacad4259fe5d7e978020'
 
 NEWLIB_URL='ftp://sourceware.org/pub/newlib/'
-NEWLIB_VERSION='newlib-4.2.0.20211231'
+NEWLIB_VERSION='newlib-4.4.0.20231231'
 NEWLIB_ARCHIVE="${NEWLIB_VERSION}.tar.gz"
-NEWLIB_MD5='f7289e3185ca8022d9c63c5351bf5439'
+NEWLIB_MD5='b8ecda015f2ded3f0f5e9258951f767e'
 
 JOBS=$(nproc)
+
+GCC_BUILD_OPTIONS="--target="${TARGET}" --prefix="${PREFIX}" --enable-languages=c --enable-interwork --enable-multilib --with-multilib-list=rmprofile --with-newlib --disable-nls --disable-shared --disable-threads"
 
 if [[ ! -d "${ARCHIVES_DIR}" ]]; then
     mkdir "${ARCHIVES_DIR}"
@@ -60,11 +69,11 @@ if [[ $(md5sum -b "${ARCHIVES_DIR}"/"${NEWLIB_ARCHIVE}" | cut -d' ' -f1) != "${N
     exit 1
 fi
 
-# ------------------------ build binutils ------------------
+# ---------------- build binutils -------------
 echo "Building ${BINUTILS_VERSION}, jobs: ${JOBS}"
 
 if [[ -d "${BINUTILS_VERSION}" ]]; then
-    echo "Cleaning up previous build ..."
+    echo "${BINUTILS_VERSION}: cleaning up previous build ..."
     rm -rf "${BINUTILS_VERSION}" 
 fi
 
@@ -72,35 +81,58 @@ tar xf "${ARCHIVES_DIR}"/"${BINUTILS_ARCHIVE}"
 cd "${BINUTILS_VERSION}"
 mkdir "${TARGET}" 
 cd "${TARGET}"
-../configure --target="${TARGET}" --prefix="${PREFIX}"
+../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-interwork --enable-multilib --disable-nls --disable-shared --disable-threads
 make -j ${JOBS}
 make install
 cd ../../
 
-# ------------------------ build gcc ------------------
-export PATH="${PREFIX}/bin:${PATH}"
-
-echo "Building ${GCC_VERSION}, jobs: ${JOBS}"
+# ---------------- build gcc stage 1 ----------
+echo "Building ${GCC_VERSION} stage 1, jobs: ${JOBS}"
 
 if [[ -d "${GCC_VERSION}" ]]; then
-    echo "Cleaning up previous build ..."
+    echo "${GCC_VERSION}: cleaning up previous build ..."
     rm -rf "${GCC_VERSION}"
 fi
 
 tar xf "${ARCHIVES_DIR}"/"${GCC_ARCHIVE}"
 
+cd "${GCC_VERSION}"
+mkdir "${TARGET}"
+cd "${TARGET}"
+../configure ${GCC_BUILD_OPTIONS} --without-headers
+make -j ${JOBS} all-gcc
+make install-gcc
+cd ../../
+
+# ---------------- build newlib ---------------
+export PATH="${PREFIX}/bin:${PATH}"
+
+echo "Building ${NEWLIB_VERSION}, jobs: ${JOBS}"
+
 if [[ -d "${NEWLIB_VERSION}" ]]; then
-    echo "Cleaning up previous build ..."
+    echo "${NEWLIB_VERSION}: cleaning up previous build ..."
     rm -rf "${NEWLIB_VERSION}"
 fi
 
 tar xf "${ARCHIVES_DIR}"/"${NEWLIB_ARCHIVE}"
 
-cd "${GCC_VERSION}"
-ln -s ../"${NEWLIB_VERSION}"/newlib .
+cd "${NEWLIB_VERSION}"
+
 mkdir "${TARGET}"
 cd "${TARGET}"
-../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-languages=c --with-newlib --enable-newlib-io-long-long
+../configure --target="${TARGET}" --prefix="${PREFIX}" --enable-multilib --enable-newlib-io-long-long --enable-newlib-register-fini --enable-newlib-retargetable-locking --disable-newlib-supplied-syscalls --disable-nls --disable-libssp --with-float=soft
+make -j ${JOBS}
+make install
+cd ../../
+
+# ---------------- build gcc stage 2 ----------
+echo "Building ${GCC_VERSION} stage 2, jobs: ${JOBS}"
+
+cd "${GCC_VERSION}"
+rm -rf "${TARGET}"
+mkdir "${TARGET}"
+cd "${TARGET}"
+../configure ${GCC_BUILD_OPTIONS} --with-headers=yes
 make -j ${JOBS}
 make install
 cd ../../
