@@ -10,6 +10,6 @@ The [Canon Hack Development Kit](https://chdk.fandom.com/wiki/CHDK) (CHDK) can b
 Components currently used:
 * [binutils 2.43.1](https://ftp.gnu.org/gnu/binutils/)
 * [gcc 13.3.0](https://ftp.gnu.org/gnu/gcc/)
-* [newlib 4.4.0.20231231](https://sourceware.org/pub/newlib/)
+* [newlib 4.5.0.20241231](https://sourceware.org/pub/newlib/)
 
 This script uses the `-j` option of `make` command with the number of available CPU threads. Compile time on a 6 cores/12 threads AMD Ryzen 5 3600XT is about 20 minutes.
